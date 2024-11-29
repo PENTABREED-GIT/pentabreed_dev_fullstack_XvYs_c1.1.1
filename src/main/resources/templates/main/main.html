@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<!--xmlns:sec="http://www.thymeleaf.org/extras/spring-security"-->
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+    <style>
+
+    </style>
+</head>
+
+<th:block layout:fragment="css">
+    <!--    <link rel="stylesheet" th:href="@{/css/main/main.css}">-->
+</th:block>
+
+<th:block layout:fragment="js">
+<!--    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>-->
+        <script th:src="@{/js/main/main.js}"></script>
+
+</th:block>
+
+<body layout:fragment="body">
+<div id="app">
+    <h1>Main</h1>
+<!--    <th:block th:replace="~{/main/test :: test('A', 'B')}"></th:block>-->
+<!--    <th:block th:replace="~{/main/test :: test('A', null)}"></th:block>-->
+
+
+</div>
+
+<script>
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title layout:fragment="title">Title</title>
+
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/lib/summernote-0.9.0-dist/summernote-lite.css}">
+    <th:block layout:fragment="css"></th:block>
+
+
+    <script th:src="@{/js/common.js}" th:inline="javascript"></script>
+    <script th:src="@{/js/vue-common.js}" th:inline="javascript"></script>
+    <script src="/lib/vue.globa.3.5.13l.js"></script>
+    <script src="/lib/vue-demi.js"></script>
+    <script src="/lib/jquery-3.5.1.min.js"></script>
+
+    <script src="/lib/summernote-0.9.0-dist/summernote-lite.js"></script>
+    <script src="/lib/summernote-0.9.0-dist/lang/summernote-ko-KR.js"></script>
+    <!--    <script src="/lib/pinia.iife.js"></script>-->
+    <th:block layout:fragment="js"></th:block>
+
+
+</head>
+<body>
+
+<!-- 헤더-->
+<th:block th:replace="~{layout/fragments/header :: headFragment}"></th:block>
+
+
+<!-- 바디-->
+<th:block layout:fragment="body"></th:block>
+
+<!-- 푸터-->
+<th:block th:replace="~{layout/fragments/footer :: footerFragment}"></th:block>
+</body>
+</html>

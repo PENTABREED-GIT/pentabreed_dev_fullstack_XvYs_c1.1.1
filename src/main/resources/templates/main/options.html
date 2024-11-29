@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<!--xmlns:sec="http://www.thymeleaf.org/extras/spring-security"-->
+<head>
+    <meta charset="UTF-8">
+    <title>Options</title>
+    <style>
+    </style>
+</head>
+
+<th:block layout:fragment="css">
+    <!--    <link rel="stylesheet" th:href="@{/css/main/main.css}">-->
+</th:block>
+
+<th:block layout:fragment="js">
+<!--    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>-->
+        <script th:src="@{/js/main/options.js}"></script>
+</th:block>
+
+<body layout:fragment="body">
+<div id="app">
+    <h1>Options</h1>
+    <div class="red" v-html="html"></div>
+    <div class="red bold" v-html="html"></div>
+    <hr>
+    <div><span v-cloak @click="fnLog">메세지: {{ message }}</span></div>
+    <div><button @click="fnCount">{{ count }}</button></div>
+    <hr>
+    <div>[조건부 랜더링]</div>
+    <div style="font-size: 40px;" v-if="showFlag" @click="() => showFlag = !showFlag">왔다</div>
+    <div style="font-size: 40px;" :class="{ red: !showFlag }" v-else @click="() => showFlag = !showFlag">갔다</div>
+    <hr>
+    <ul>
+        <li v-for="(item, index) in items">
+            이름: {{ item.userName }}, 나이: {{item.age}}살, 인덱스: {{index}}
+        </li>
+    </ul>
+    <hr>
+    <ul>
+        <li v-for="(value, key, index) in user" :key="index">
+            {{value}} {{key}} {{index}}
+        </li>
+    </ul>
+
+    <input type="text" ref="hereInput">
+</div>
+
+
+<script>
+    /*
+    const {createApp} = Vue
+    console.log(Vue);
+    window.onload = () => {
+        console.log('window.onload ...')
+    }
+
+    createApp({
+        data() {
+            return {
+                message: 'Hello Vue!',
+                count: 0,
+                items: [],
+                showFlag: true,
+                html: '<div><span>Hello World</span></div>',
+                user: {
+                    name: '홍길동',
+                    age: 10,
+                },
+            }
+        },
+        methods: {
+            fnLog() {
+                console.log('fnLog ...')
+            },
+            fnCount() {
+                this.count++
+                console.log(`this.count = ${this.count}`)
+            },
+            async fnSampleApi() {
+                const {status, data}  = await fnAsyncGet('/sample')
+                if (!status) {
+                    alert('sample api 호출 에러')
+                    return
+                }
+                return data;
+            }
+        },
+        async mounted() {
+            console.log('[1] 마운트 완료');
+            console.log(this.fnLog)
+
+            console.log('[2] API 호출');
+            this.items = await this.fnSampleApi();
+            console.log(this.items)
+
+            // ref="hereInput" 인 input 포커스
+            this.$refs.hereInput.focus()
+
+            // 외부 common.js 함수도 호출가능
+            console.log('fnIsMobile() =', fnIsMobile())
+
+            await fnSampleMenu()
+
+
+        }
+    }).mount('#app')
+
+    console.log('[3] asdasd')
+*/
+
+</script>
+<!--분리도 가능-->
+<script th:src="@{/js/main/options.js}"></script>
+</body>
+</html>

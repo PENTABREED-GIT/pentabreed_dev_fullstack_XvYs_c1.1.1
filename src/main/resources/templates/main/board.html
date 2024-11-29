@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<!--xmlns:sec="http://www.thymeleaf.org/extras/spring-security"-->
+<head>
+    <meta charset="UTF-8">
+    <title>Board</title>
+</head>
+
+<th:block layout:fragment="css">
+    <!--    <link rel="stylesheet" th:href="@{/css/main/main.css}">-->
+</th:block>
+
+<th:block layout:fragment="js">
+    <!--    <script th:src="@{/js/main/main.js}"></script>-->
+</th:block>
+
+<body layout:fragment="body">
+<div id="app">
+    <h1>Composition Board(Summernote Editor)</h1>
+    <div id="summernote"></div>
+    <fieldset style="min-height: 100px; border: 1px solid red;">
+        <legend>에디터 내용 읽고 쓰기 버튼(콘솔)</legend>
+        <div>
+            <button @click="readEditor">에디터 내용 읽기</button>
+        </div>
+        <div>
+            <button @click="writeEditor">에디터 내용 수정하기</button>
+        </div>
+        <div>
+            <button @click="sendPost">백엔드에 POST 요청</button>
+        </div>
+    </fieldset>
+</div>
+
+
+<script>
+
+
+    const {createApp, ref, onMounted, reactive} = Vue;
+
+
+    const app = createApp({
+        setup() {
+            // <script setup> 영역
+            const editorText = ref(null);
+
+
+            const readEditor = () => {
+                editorText.value = $('#summernote').summernote('code');
+                alert(editorText.value);
+                console.log(editorText.value)
+            }
+
+            const writeEditor = () => {
+                const text = prompt('수정할 내용을 입력하세요')
+                $('#summernote').summernote('code', text)
+
+            }
+
+            const sendPost = async () => {
+                const param = {
+                    userId: 'user1',
+                    editorText: editorText.value
+                }
+
+                console.log({param})
+
+                // POST API 호출
+                const result = await fnAsyncJsonPost('/post', param)
+
+                console.log(result);
+
+                alert(JSON.stringify(result, null, 2))
+
+            }
+
+            onMounted(async () => {
+                console.log('마운트')
+                // 메뉴 API 호출
+                await fnSampleMenu();
+                fnSummerNoteInit();
+            })
+
+            return {editorText, readEditor, writeEditor, sendPost};
+        },
+
+
+    });
+
+    app
+        // .use(createPinia())
+        .mount('#app');
+
+
+</script>
+</body>
+</html>
