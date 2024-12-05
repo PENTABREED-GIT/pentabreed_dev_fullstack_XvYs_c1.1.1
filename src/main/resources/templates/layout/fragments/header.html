@@ -13,6 +13,14 @@
         <div id="header">
             <h1>header</h1>
             <ul id="menu">
+                <li sec:authorize="isAnonymous()" onclick="fnPageMove('/user/login')">로그인</li>
+                <li sec:authorize="isAnonymous()" onclick="fnPageMove('/user/join')">회원가입</li>
+                <li onclick="fnPageMove('/')">메인</li>
+                <li sec:authorize="isAuthenticated()" onclick="fnPageMove('/board/list')">게시판</li>
+                <li onclick="fnPageMove('/options')">옵션스 예제</li>
+                <li onclick="fnPageMove('/composition')">컴포지션 예제</li>
+                <li onclick="fnPageMove('/sample')">샘플데이터 API 보기</li>
+                <li onclick="fnPageMove('/ok')">샘플데이터 API 보기2</li>
             </ul>
         </div>
     </th:block>

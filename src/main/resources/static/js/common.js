@@ -1,11 +1,84 @@
+const {toRefs} = Vue;
 /**
- * 화면당 보여줄 게시글의 갯수
+ * 화면당 보여줄 게시글의 갯수 (조회용)
  */
 const limit = 2;                                      // 화면당 보여줄 게시글의 갯수
-const pageShowButtonCount = 10;                       // 하단에 표시되는 페이지 버튼 자체의 갯수
 
-let next = pageShowButtonCount + 1;                   // 이전 페이지 버튼
-let prev = pageShowButtonCount - pageShowButtonCount; // 다음 페이지 버튼
+//! 뷰 컴포넌트로 이전
+// const pageShowButtonCount = 10;                       // 하단에 표시되는 페이지 버튼 자체의 갯수
+// let prev = pageShowButtonCount - pageShowButtonCount; // 이전 페이지 버튼
+// let next = pageShowButtonCount + 1;                   // 다음 페이지 버튼
+
+
+
+//! 뷰를 위한 페이징 컴포넌트
+const Pagination = {
+    props: {
+        clickPage: { type: Number, required: true },
+        totalCount: { type: Number, required: true },
+    },
+    emits: ['paging-wrapper'],
+    setup(props, {emit}) {
+        console.log('\n\n---------- 컴포넌트 setup ----------')
+        console.log('전달 받은 props')
+        console.log({...props})
+
+
+        const pageShowButtonCount = computed(() => 10);
+        const lastPageButtonNum = computed(() => Math.ceil(props.totalCount / limit));
+        const clickPage = computed(() => props.clickPage);
+        const totalCount = computed(() => props.totalCount);
+
+
+        const doEmit = (n) => {
+            console.log(`doEmit 호출  param = ${n}`)
+            emit('paging-wrapper', n)
+        }
+
+        return {pageShowButtonCount, lastPageButtonNum, doEmit, clickPage, totalCount}
+    },
+    template: `
+        <nav aria-label="Page navigation example">
+<!--             <h1>pageShowButtonCount : {{pageShowButtonCount}}</h1>-->
+<!--             <h1>lastPageButtonNum : {{lastPageButtonNum}}</h1><br>-->
+<!--             <h1>clickPage : {{clickPage}}</h1>-->
+<!--             <h1>totalCount : {{totalCount}}</h1>-->
+            <ul class="pagination" id="paging">
+        
+                <!--이전 버튼-->
+                <li class="page-item" v-if="clickPage > 1">
+                  <a class="page-link" href="#" aria-label="Previous" @click.prevent="doEmit(clickPage-1)">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+        
+                <!--페이지 버튼들-->
+                <template v-for="n in pageShowButtonCount">
+                    <template v-if="n <= lastPageButtonNum">
+                        <template v-if="n == clickPage">
+                            <li class="page-item active" v-if="n <= lastPageButtonNum">
+                                <a class="page-link" href="#" @click.prevent="doEmit(n)">{{ n }}</a>
+                            </li>
+                        </template>
+                        <template v-else>
+                            <li class="page-item" v-if="n <= lastPageButtonNum">
+                                <a class="page-link" href="#" @click.prevent="doEmit(n)">{{ n }}</a>
+                            </li>
+                        </template>
+                    </template>
+                </template>
+        
+                <!--다음 버튼-->
+                <li class="page-item" v-if="clickPage < lastPageButtonNum">
+                  <a class="page-link" href="#" aria-label="Next" @click.prevent="doEmit(clickPage+1)">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+            </ul>
+        </nav>
+    `
+};
+
 
 
 /**

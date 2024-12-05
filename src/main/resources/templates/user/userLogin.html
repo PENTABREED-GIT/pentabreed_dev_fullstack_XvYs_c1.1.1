@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title layout:fragment="">로그인</title>
+</head>
+
+<th:block layout:fragment="css">
+    <!--    <link rel="stylesheet" th:href="@{/css/main/common.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/css/main/login.css}">-->
+</th:block>
+
+<th:block layout:fragment="js">
+    <script th:src="@{/js/user/userLogin.js}"></script>
+</th:block>
+
+<body layout:fragment="body">
+<form th:action="@{/api/user/login}" th:method="post">
+    <div class="row mb-3">
+    <label for="userId" class="col-sm-2 col-form-label">ID</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control" id="userId" name="userId" value="user1">
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="userPassword" class="col-sm-2 col-form-label">PASSWORD</label>
+    <div class="col-sm-10">
+        <input type="password" class="form-control" id="userPassword" name="userPassword" value="1234">
+    </div>
+</div>
+<button type="submit" class="btn btn-primary">로그인</button>
+</form>
+</body>
+</html>

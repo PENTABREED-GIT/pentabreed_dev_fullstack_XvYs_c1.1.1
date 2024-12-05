@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title layout:fragment="">게시판</title>
+</head>
+
+<th:block layout:fragment="css">
+    <!--    <link rel="stylesheet" th:href="@{/css/main/common.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/css/main/login.css}">-->
+</th:block>
+
+<th:block layout:fragment="js">
+    <script th:src="@{/js/board/boardList.js}"></script>
+</th:block>
+
+
+<body layout:fragment="body" id="app">
+
+<h1>게시판</h1>
+
+<div class="input-group mb-3">
+    <span class="input-group-text" id="totalCount">{{totalCountText}}</span>
+</div>
+
+<div class="input-group mb-3 w-50">
+    <input type="text" class="form-control" placeholder="제목을 입력해주세요" aria-label="제목을 입력해주세요"
+           @input="(e) => inputHandler(e)" @keyup.enter="() => console.log('엔터')">
+    <button class="btn btn-dark" @click="() => console.log('엔터')">검색</button>
+</div>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">게시글 ID</th>
+        <th scope="col">제목</th>
+        <th scope="col">내용</th>
+        <th scope="col">작성자</th>
+    </tr>
+    </thead>
+    <tbody id="tbody">
+    <tr v-for="(item, index) in items">
+        <th>{{item.id}}</th>
+        <td>{{item.title}}</td>
+        <td>{{item.role}}</td>
+        <td>{{item.userId}}</td>
+    </tr>
+    </tbody>
+</table>
+
+<!--<Pagination v-cloak :clickPage="clickPage" :totalCount="totalCount"></Pagination>-->
+<Pagination v-if="totalCount > 0" :click-page="clickPage" :total-count="totalCount" @paging-wrapper="pagingWrapper"></Pagination>
+
+
+<!--
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination" id="paging">
+
+        &lt;!&ndash;이전 버튼&ndash;&gt;
+        <li class="page-item" v-if="clickPage > 1">
+          <a class="page-link" href="#" aria-label="Previous" @click="pagingWrapper(clickPage-1)">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+
+        &lt;!&ndash;페이지 버튼들&ndash;&gt;
+        <template v-for="n in pageShowButtonCount">
+            <template v-if="n == clickPage">
+                <li class="page-item active" v-if="prev + n <= lastPageButtonNum">
+                    <a class="page-link" href="#" @click="pagingWrapper(n)">{{ n }}</a>
+                </li>
+            </template>
+            <template v-else>
+                <li class="page-item" v-if="prev + n <= lastPageButtonNum">
+                    <a class="page-link" href="#" @click="pagingWrapper(n)">{{ n }}</a>
+                </li>
+            </template>
+        </template>
+
+
+        &lt;!&ndash;다음 버튼&ndash;&gt;
+        <li class="page-item" v-if="clickPage < lastPageButtonNum">
+          <a class="page-link" href="#" aria-label="Next" @click="pagingWrapper(clickPage+1)">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+    </ul>
+</nav>
+
+-->
+
+
+<div>
+    <button class="btn btn-secondary" onclick="fnPageMove('/board/form')">게시글 등록</button>
+</div>
+clickPage => {{ clickPage }}
+totalCount => {{ totalCount }}
+<script>
+
+
+    const {createApp, ref, onMounted, reactive, computed, watchPostEffect} = Vue;
+
+    const app = createApp({
+
+        setup() {
+            const search = ref(null);
+            const items = ref([]);
+            const clickPage = ref(0);
+            const totalCount = ref(0);
+            // const lastPageButtonNum = ref(Math.ceil(totalCount.value / limit));
+
+            //! common.js 로 빠잉
+            // const pageShowButtonCount = ref(10);
+            // const prev = ref(pageShowButtonCount.value - pageShowButtonCount.value)
+            // const next = ref(pageShowButtonCount.value + 1)
+
+
+            watchPostEffect(() => {
+                // console.log(`watchPostEffect 감시한 값 => ${message.value}`)
+            })
+
+            const totalCountText = computed(() => {
+                console.log('totalCountText ...')
+                return `전체 게시글 갯수: ${totalCount.value}`
+            })
+
+            const inputHandler = (e) => {
+                console.log('inputHandler 호출 ...')
+                // ref 는 .value 로 내부 접근
+                search.value = e.target.value;
+                console.log(search.value)
+            }
+
+            const searchHandler = () => {
+                console.log('searchHandler 호출 ...')
+            }
+
+            const fnBoardList = async () => {
+
+                // limit 는 common.js 에 선언 기본값 8
+                const offset = clickPage.value === 1 ? 0 : (clickPage.value - 1) * limit
+
+                // api 요청 파라미터, 검색조회면 PagingVo 를 상속하거나, 아니면 PagingVo 를 바로 받을 수 있습니다
+                const param = {
+                    limit,
+                    offset
+                };
+
+                // post json api - 외부 공통 함수
+                const {status, data, metaData} = await fnAsyncJsonPost('/api/board/list', param)
+                if (!status) return;
+
+                console.log('api 호출 !!!')
+                console.log({status, data, metaData})
+
+
+
+                // 데이터
+                items.value = data
+                console.log(items.value)
+
+
+
+                // 토탈 카운트 초기화
+                totalCount.value = metaData['totalCount'];
+                console.log(`totalCount.value = ${totalCount.value}`)
+                console.log(`clickPage.value = ${clickPage.value}`)
+                // lastPageButtonNum.value = Math.ceil(totalCount.value / limit)
+
+
+            }
+
+
+            const pagingWrapper = async (clickPageNum) => {
+                console.log(`pagingWrapper 호출 !! param = ${clickPageNum}`)
+                clickPage.value = clickPageNum;
+                await fnBoardList()
+            }
+
+
+            //? 라이프 사이클 중 1개 - 데이터 초기화
+            onMounted(async () => {
+                console.log('마운트');
+                await pagingWrapper(1)
+
+            })
+
+            // console.log({clickPage: clickPage.value, totalCount: totalCount.value})
+
+            return {
+                clickPage, totalCount,
+                search, inputHandler, searchHandler, totalCountText,
+                pagingWrapper, fnBoardList, items,
+            };
+        },
+
+
+    });
+
+    console.log('app의 컴포넌트')
+
+    app
+        .component('Pagination', Pagination)    // common.js
+        // .use(createPinia())
+        .mount('#app');
+
+
+</script>
+</body>
+</html>

@@ -48,7 +48,7 @@ window.onload = () => {
         // 외부 common.js 함수도 호출가능
         console.log('fnIsMobile() =', fnIsMobile())
 
-        await fnSampleMenu()
+        // await fnSampleMenu()
 
 
     }

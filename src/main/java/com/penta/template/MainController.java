@@ -19,11 +19,6 @@ import java.util.*;
 public class MainController {
 
 
-    @GetMapping("/")
-    public String main(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        return "main/main";
-    }
 
     @GetMapping("/options")
     public String options() {
@@ -40,7 +35,7 @@ public class MainController {
         return "main/board";
     }
 
-
+/*
     @ResponseBody
     @GetMapping("/menu")
     public ApiResponse<?> menu() {
@@ -57,6 +52,7 @@ public class MainController {
         ApiResponse<?> response = new ApiResponse<>(dataList);
         return response;
     }
+    */
 
     @ResponseBody
     @GetMapping("/sample")

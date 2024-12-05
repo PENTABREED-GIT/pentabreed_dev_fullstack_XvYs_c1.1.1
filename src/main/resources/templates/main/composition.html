@@ -145,6 +145,9 @@
             let showFlag = ref(true);
             let html = ref('<strong>Hello.. HTML</strong>');
 
+            console.log(`prev = ${prev}`)
+            console.log(`next = ${next}`)
+
 
             //? useEffect 유사
             watchPostEffect(() => {
@@ -178,7 +181,7 @@
             onMounted(async () => {
                 console.log('마운트');
                 // 메뉴 API 호출
-                await fnSampleMenu()
+                // await fnSampleMenu()
                 name.value = '홍길동';
                 age.value = 10;
 

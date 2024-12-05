@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout.html}"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title layout:fragment="">회원가입</title>
+</head>
+
+<th:block layout:fragment="css">
+    <!--    <link rel="stylesheet" th:href="@{/css/main/common.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/css/main/login.css}">-->
+</th:block>
+
+<th:block layout:fragment="js">
+    <script th:src="@{/js/user/userJoin.js}"></script>
+</th:block>
+
+
+<body layout:fragment="body">
+<form>
+    <div class="row mb-3">
+    <label for="userId" class="col-sm-2 col-form-label">ID</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control" id="userId">
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="userPassword" class="col-sm-2 col-form-label">PASSWORD</label>
+    <div class="col-sm-10">
+        <input type="password" class="form-control" id="userPassword">
+    </div>
+</div>
+<fieldset class="row mb-3">
+    <legend class="col-form-label col-sm-2 pt-0">ROLE</legend>
+    <div class="col-sm-10">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="role" id="ROLE_USER" value="ROLE_USER" checked>
+            <label class="form-check-label" for="ROLE_USER">
+                사용자
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="role" id="ROLE_ADMIN" value="ROLE_ADMIN">
+            <label class="form-check-label" for="ROLE_ADMIN">
+                관리자
+            </label>
+        </div>
+    </div>
+</fieldset>
+</form>
+<!--    <button type="submit" class="btn btn-primary">회원가입</button>-->
+<button class="btn btn-primary" onclick="fnUserJoin()">회원가입</button>
+</body>
+</html>

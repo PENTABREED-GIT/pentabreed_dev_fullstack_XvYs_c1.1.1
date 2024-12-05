@@ -1,7 +1,7 @@
 window.onload = async () => {
     console.log('main.js ...')
     await init();
-    await fnSampleMenu()
+    // await fnSampleMenu()
 }
 
 

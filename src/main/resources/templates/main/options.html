@@ -22,8 +22,7 @@
         <script th:src="@{/js/main/options.js}"></script>
 </th:block>
 
-<body layout:fragment="body">
-<div id="app">
+<body layout:fragment="body" id="app">
     <h1>Options</h1>
     <div class="red" v-html="html"></div>
     <div class="red bold" v-html="html"></div>
@@ -48,11 +47,9 @@
     </ul>
 
     <input type="text" ref="hereInput">
-</div>
 
 
 <script>
-    /*
     const {createApp} = Vue
     console.log(Vue);
     window.onload = () => {
@@ -104,17 +101,16 @@
             // 외부 common.js 함수도 호출가능
             console.log('fnIsMobile() =', fnIsMobile())
 
-            await fnSampleMenu()
+            // await fnSampleMenu()
 
 
         }
     }).mount('#app')
 
     console.log('[3] asdasd')
-*/
 
 </script>
 <!--분리도 가능-->
-<script th:src="@{/js/main/options.js}"></script>
+<!--<script th:src="@{/js/main/options.js}"></script>-->
 </body>
 </html>
