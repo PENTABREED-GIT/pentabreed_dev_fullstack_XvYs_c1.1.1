@@ -28,6 +28,13 @@ const Pagination = {
         <nav aria-label="Page navigation example">
             <ul class="pagination" id="paging">
         
+                <!--맨앞 버튼-->
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous" @click.prevent="doEmit(1)">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                  </a>
+                </li>        
+        
                 <!--이전 버튼-->
                 <li class="page-item" v-if="clickPage > 1">
                   <a class="page-link" href="#" aria-label="Previous" @click.prevent="doEmit(clickPage-1)">
@@ -65,6 +72,14 @@ const Pagination = {
                 <li class="page-item" v-else>
                   <a class="page-link" href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+                
+                
+                <!--맨끝 버튼-->
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next" @click.prevent="doEmit(lastPageButtonNum)">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
                   </a>
                 </li>
                 
