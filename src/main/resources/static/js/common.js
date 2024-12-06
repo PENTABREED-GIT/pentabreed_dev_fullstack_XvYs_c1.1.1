@@ -917,8 +917,11 @@ function fnReload() {
 /**
  * summernote editor 초기화
  */
-function fnSummerNoteInit() {
-    $('#summernote').summernote({
+function fnSummerNoteInit(id) {
+    // $('#summernote').summernote({
+    console.log('fnSummerNoteInit ...');
+    console.log(`id = ${id}`)
+    $('#' + id).summernote({
         lang: 'ko-KR', // default: 'en-US'
         height: 300, // set editor height
         width: 700,

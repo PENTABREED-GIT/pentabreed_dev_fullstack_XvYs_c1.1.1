@@ -51,9 +51,7 @@
     </tbody>
 </table>
 
-<!--<Pagination v-cloak :clickPage="clickPage" :totalCount="totalCount"></Pagination>-->
 <Pagination v-if="totalCount > 0" :click-page="clickPage" :total-count="totalCount" @call-back="fnBoardList"></Pagination>
-
 
 <!--
 
@@ -115,6 +113,7 @@ totalCount => {{ totalCount }}
             const items = ref([]);
             const clickPage = ref(0);
             const totalCount = ref(0);
+            const noteId = ref('summernote')
 
             watchPostEffect(() => {
                 // console.log(`watchPostEffect 감시한 값 => ${message.value}`)
@@ -197,7 +196,7 @@ totalCount => {{ totalCount }}
     console.log('app의 컴포넌트')
 
     app
-        .component('Pagination', Pagination)    // common.js
+        .component('Pagination', Pagination)
         // .use(createPinia())
         .mount('#app');
 
