@@ -17,7 +17,7 @@ const Pagination = {
         clickPage: { type: Number, required: true },
         totalCount: { type: Number, required: true },
     },
-    emits: ['paging-wrapper'],
+    emits: ['call-back'],
     setup(props, {emit}) {
         console.log('\n\n---------- 컴포넌트 setup ----------')
         console.log('전달 받은 props')
@@ -32,7 +32,7 @@ const Pagination = {
 
         const doEmit = (n) => {
             console.log(`doEmit 호출  param = ${n}`)
-            emit('paging-wrapper', n)
+            emit('call-back', n)
         }
 
         return {pageShowButtonCount, lastPageButtonNum, doEmit, clickPage, totalCount}

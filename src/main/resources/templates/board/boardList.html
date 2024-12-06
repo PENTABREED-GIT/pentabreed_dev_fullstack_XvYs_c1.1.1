@@ -52,7 +52,7 @@
 </table>
 
 <!--<Pagination v-cloak :clickPage="clickPage" :totalCount="totalCount"></Pagination>-->
-<Pagination v-if="totalCount > 0" :click-page="clickPage" :total-count="totalCount" @paging-wrapper="pagingWrapper"></Pagination>
+<Pagination v-if="totalCount > 0" :click-page="clickPage" :total-count="totalCount" @call-back="fnBoardList"></Pagination>
 
 
 <!--
@@ -111,13 +111,6 @@ totalCount => {{ totalCount }}
             const items = ref([]);
             const clickPage = ref(0);
             const totalCount = ref(0);
-            // const lastPageButtonNum = ref(Math.ceil(totalCount.value / limit));
-
-            //! common.js 로 빠잉
-            // const pageShowButtonCount = ref(10);
-            // const prev = ref(pageShowButtonCount.value - pageShowButtonCount.value)
-            // const next = ref(pageShowButtonCount.value + 1)
-
 
             watchPostEffect(() => {
                 // console.log(`watchPostEffect 감시한 값 => ${message.value}`)
@@ -139,7 +132,9 @@ totalCount => {{ totalCount }}
                 console.log('searchHandler 호출 ...')
             }
 
-            const fnBoardList = async () => {
+            const fnBoardList = async (paramClickPage = 1) => {
+
+                clickPage.value = paramClickPage;
 
                 // limit 는 common.js 에 선언 기본값 8
                 const offset = clickPage.value === 1 ? 0 : (clickPage.value - 1) * limit
@@ -175,17 +170,11 @@ totalCount => {{ totalCount }}
             }
 
 
-            const pagingWrapper = async (clickPageNum) => {
-                console.log(`pagingWrapper 호출 !! param = ${clickPageNum}`)
-                clickPage.value = clickPageNum;
-                await fnBoardList()
-            }
-
 
             //? 라이프 사이클 중 1개 - 데이터 초기화
             onMounted(async () => {
                 console.log('마운트');
-                await pagingWrapper(1)
+                await fnBoardList(1)
 
             })
 
@@ -194,7 +183,7 @@ totalCount => {{ totalCount }}
             return {
                 clickPage, totalCount,
                 search, inputHandler, searchHandler, totalCountText,
-                pagingWrapper, fnBoardList, items,
+                fnBoardList, items,
             };
         },
 

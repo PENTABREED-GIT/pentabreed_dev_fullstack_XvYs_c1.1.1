@@ -28,9 +28,12 @@ spring:
   datasource:
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://ec2-18-224-143-16.us-east-2.compute.amazonaws.com:3306/vue_cdn_session_template
-      username: dev
-      password: 123123
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/vue_cdn_session_template
+      username: root
+      password: 1234
+#      jdbc-url: jdbc:mysql://ec2-18-224-143-16.us-east-2.compute.amazonaws.com:3306/vue_cdn_session_template
+#      username: dev
+#      password: 123123
       connection-timeout: 30000
       pool-name: HikariCP
       read-only: false
