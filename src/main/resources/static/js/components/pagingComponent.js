@@ -34,6 +34,11 @@ const Pagination = {
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
+                <li class="page-item" v-else>
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
         
                 <!--페이지 버튼들-->
                 <template v-for="n in pageShowButtonCount">
@@ -57,6 +62,12 @@ const Pagination = {
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
+                <li class="page-item" v-else>
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+                
             </ul>
         </nav>
     `
