@@ -6,6 +6,7 @@ import com.penta.template.config.security.context.UserContext;
 import com.penta.template.web.board.dto.BoardDto;
 import com.penta.template.web.board.service.BoardService;
 import com.penta.template.web.board.vo.BoardInsertVo;
+import com.penta.template.web.board.vo.BoardSearchVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,8 +49,8 @@ public class BoardController {
 
     @ResponseBody
     @PostMapping("/api/board/list")
-    public ApiResponse<?> apiBoardList(@RequestBody PagingVo pagingVo) {
-        return boardService.selectBoardList(pagingVo);
+    public ApiResponse<?> apiBoardList(@RequestBody BoardSearchVo boardSearchVo) {
+        return boardService.selectBoardList(boardSearchVo);
 
     }
 

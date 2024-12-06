@@ -3,10 +3,11 @@ const Pagination = {
     props: {
         clickPage: { type: Number, required: true },
         totalCount: { type: Number, required: true },
+        search: { type: String, required: true },
     },
     emits: ['call-back'],
     setup(props, {emit}) {
-        console.log('\n\n---------- 컴포넌트 setup ----------')
+        console.log('\n\n---------- 페이징 컴포넌트 setup ----------')
         console.log('전달 받은 props')
         console.log({...props})
 
@@ -15,6 +16,7 @@ const Pagination = {
         const lastPageButtonNum = computed(() => Math.ceil(props.totalCount / limit));
         const clickPage = computed(() => props.clickPage);
         const totalCount = computed(() => props.totalCount);
+        const search = computed(() => props.search);
 
 
         const doEmit = (n) => {
@@ -22,7 +24,7 @@ const Pagination = {
             emit('call-back', n)
         }
 
-        return {pageShowButtonCount, lastPageButtonNum, doEmit, clickPage, totalCount}
+        return {pageShowButtonCount, lastPageButtonNum, doEmit, clickPage, totalCount, search}
     },
     template: `
         <nav aria-label="Page navigation example">

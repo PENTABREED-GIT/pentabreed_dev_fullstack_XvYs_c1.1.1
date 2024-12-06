@@ -5,9 +5,7 @@ import lombok.*;
 @Setter
 @Getter
 @ToString
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class PagingVo {
 
     // paging
@@ -15,7 +13,14 @@ public class PagingVo {
     private int offset;
 
     // between
-    private int start;
-    private int end;
+//    private int start;
+//    private int end;
+
+    @Builder
+    public PagingVo(int limit, int offset) {
+        this.limit = limit;
+        this.offset = offset;
+    }
+
 
 }

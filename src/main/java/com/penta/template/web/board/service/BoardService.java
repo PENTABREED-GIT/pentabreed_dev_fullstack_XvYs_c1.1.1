@@ -8,8 +8,10 @@ import com.penta.template.web.board.dto.BoardDto;
 import com.penta.template.web.board.entity.Board;
 import com.penta.template.web.board.repository.BoardRepository;
 import com.penta.template.web.board.vo.BoardInsertVo;
+import com.penta.template.web.board.vo.BoardSearchVo;
 import com.penta.template.web.user.entity.User;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
@@ -88,8 +90,10 @@ public class BoardService {
         return boardDto;
     }
 
-    public ApiResponse<List<BoardDto>> selectBoardList(PagingVo pagingVo) {
+    @Transactional
+    public ApiResponse<List<BoardDto>> selectBoardList(BoardSearchVo boardSearchVo) {
 
+        System.out.println("boardSearchVo = " + boardSearchVo);
 //        QBoard board = QBoard.board;
 
 
@@ -97,6 +101,7 @@ public class BoardService {
         long totalCount = jpaQueryFactory
                 .select(board)
                 .from(board)
+                .where(boardTitleLike(boardSearchVo.getSearch()))
                 .innerJoin(board.user, user).fetchJoin()
                 .fetch().size();
 
@@ -109,8 +114,9 @@ public class BoardService {
                         )
                 )
                 .from(board)
-                .limit(pagingVo.getLimit())
-                .offset(pagingVo.getOffset())
+                .where(boardTitleLike(boardSearchVo.getSearch()))
+                .limit(boardSearchVo.getLimit())
+                .offset(boardSearchVo.getOffset())
                 .innerJoin(board.user, user).fetchJoin()
                 .orderBy(board.regDate.desc())
                 .fetch();
@@ -124,5 +130,9 @@ public class BoardService {
 
 
         return new ApiResponse<>(boardDtoList, metaData);
+    }
+
+    private static BooleanExpression boardTitleLike(String titleParam) {
+        return titleParam != null ? board.title.like("%" + titleParam + "%") : null;
     }
 }

@@ -34,8 +34,8 @@
 
 <div class="input-group mb-3 w-50">
     <input type="text" class="form-control" placeholder="제목을 입력해주세요" aria-label="제목을 입력해주세요"
-           @input="(e) => inputHandler(e)" @keyup.enter="() => console.log('엔터')">
-    <button class="btn btn-dark" @click="() => console.log('엔터')">검색</button>
+           @input="(e) => inputHandler(e)" @keyup.enter="() => fnBoardList(1)">
+    <button class="btn btn-dark" @click="() => fnBoardList(1)">검색</button>
 </div>
 
 <table class="table table-hover">
@@ -57,52 +57,11 @@
     </tbody>
 </table>
 
-<Pagination v-if="totalCount > 0" :click-page="clickPage" :total-count="totalCount" @call-back="fnBoardList"></Pagination>
-
-<!--
-
-<nav aria-label="Page navigation example">
-    <ul class="pagination" id="paging">
-
-        &lt;!&ndash;이전 버튼&ndash;&gt;
-        <li class="page-item" v-if="clickPage > 1">
-          <a class="page-link" href="#" aria-label="Previous" @click="pagingWrapper(clickPage-1)">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-
-        &lt;!&ndash;페이지 버튼들&ndash;&gt;
-        <template v-for="n in pageShowButtonCount">
-            <template v-if="n == clickPage">
-                <li class="page-item active" v-if="prev + n <= lastPageButtonNum">
-                    <a class="page-link" href="#" @click="pagingWrapper(n)">{{ n }}</a>
-                </li>
-            </template>
-            <template v-else>
-                <li class="page-item" v-if="prev + n <= lastPageButtonNum">
-                    <a class="page-link" href="#" @click="pagingWrapper(n)">{{ n }}</a>
-                </li>
-            </template>
-        </template>
-
-
-        &lt;!&ndash;다음 버튼&ndash;&gt;
-        <li class="page-item" v-if="clickPage < lastPageButtonNum">
-          <a class="page-link" href="#" aria-label="Next" @click="pagingWrapper(clickPage+1)">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-    </ul>
-</nav>
-
--->
-
+<Pagination v-if="totalCount > 0" :click-page="clickPage" :search="search" :total-count="totalCount" @call-back="fnBoardList"></Pagination>
 
 <div>
     <button class="btn btn-secondary" onclick="fnPageMove('/board/form')">게시글 등록</button>
 </div>
-clickPage => {{ clickPage }}
-totalCount => {{ totalCount }}
 
 <script>
 
@@ -113,8 +72,6 @@ totalCount => {{ totalCount }}
 
         setup() {
 
-            console.log(Pagination);
-            console.log('asdasdasdasdasdasd')
             const search = ref(null);
             const items = ref([]);
             const clickPage = ref(0);
@@ -142,7 +99,6 @@ totalCount => {{ totalCount }}
             }
 
             const fnBoardList = async (paramClickPage = 1) => {
-
                 clickPage.value = paramClickPage;
 
                 // limit 는 common.js 에 선언 기본값 8
@@ -151,7 +107,8 @@ totalCount => {{ totalCount }}
                 // api 요청 파라미터, 검색조회면 PagingVo 를 상속하거나, 아니면 PagingVo 를 바로 받을 수 있습니다
                 const param = {
                     limit,
-                    offset
+                    offset,
+                    search: search.value
                 };
 
                 // post json api - 외부 공통 함수
@@ -166,8 +123,6 @@ totalCount => {{ totalCount }}
                 // 데이터
                 items.value = data
                 console.log(items.value)
-
-
 
                 // 토탈 카운트 초기화
                 totalCount.value = metaData['totalCount'];
@@ -190,8 +145,8 @@ totalCount => {{ totalCount }}
             // console.log({clickPage: clickPage.value, totalCount: totalCount.value})
 
             return {
-                clickPage, totalCount,
-                search, inputHandler, searchHandler, totalCountText,
+                clickPage, totalCount, search,
+                inputHandler, searchHandler, totalCountText,
                 fnBoardList, items,
             };
         },
