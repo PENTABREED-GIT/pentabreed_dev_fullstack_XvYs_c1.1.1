@@ -24,7 +24,7 @@
     <script th:src="@{/js/board/boardForm.js}"></script>
 </th:block>
 
-<body layout:fragment="body">
+<body layout:fragment="body" id="app">
 <div>
     <ul>
         <li>에디터는 fnSummerNoteInit() 함수로 초기화 하고 있습니다</li>
@@ -34,9 +34,91 @@
     </ul>
 </div>
 <div class="col-sm-10">
-    <div><label>제목 : <input type="text" id="title"></label></div>
-    <div id="summernote"></div>
+    <div><label>제목 : <input type="text" id="title" @input="(e) => title = e.target.value"></label></div>
+    <div id="summernote" ref="summernote"></div>
 </div>
-<button class="btn btn-primary" onclick="fnBoardSave()">게시글 저장</button>
+<button class="btn btn-primary" @click="boardSave">게시글 저장</button>
+<button class="btn btn-primary" @click="editorContent">테스트</button>
+<script>
+
+    const {createApp, ref, onMounted, reactive, computed, watchPostEffect} = Vue;
+
+    const app = createApp({
+
+        setup() {
+
+            const title = ref(null);
+            // const content = ref(document.querySelector('.note-editable').innerHTML);
+            const content = ref(document.querySelector('.note-editable'));
+
+            watchPostEffect(() => {
+                // console.log(`watchPostEffect 감시한 값 => ${message.value}`)
+            })
+
+            const editorContent = () => {
+                console.log('editorContent ...')
+                console.log(document.querySelector('.note-editable').innerHTML)
+                content.value = document.querySelector('.note-editable').innerHTML
+
+
+                console.log({
+                    title: title.value,
+                    content: content.value
+                })
+
+            }
+
+            // 게시글 저장
+            const boardSave = async () => {
+                title.value = fnGetValueById('title')
+                content.value = $('#summernote').summernote('code');
+
+                console.log({
+                    title: title.value,
+                    content: content.value
+                })
+
+                const param = {
+                    title: title.value,
+                    content: content.value,
+                };
+
+                const {status, data, metaData} = await fnAsyncJsonPost('/api/board/save', param)
+                console.log({status, data, metaData});
+
+
+                if (!status) {
+                    alert('게시글 등록 에러')
+                    return;
+                }
+
+                alert('게시글 등록 완료');
+                fnPageMove('/board/list');
+
+            }
+
+            //? 라이프 사이클 중 1개 - 데이터 초기화
+            onMounted(async () => {
+                console.log('마운트');
+
+                fnSummerNoteInit();
+            })
+
+            return {
+                title, content, editorContent, boardSave
+            };
+        },
+
+
+    });
+
+    console.log('app의 컴포넌트')
+
+    app
+        // .component('Pagination', Pagination)    // common.js
+        .mount('#app');
+
+
+</script>
 </body>
 </html>

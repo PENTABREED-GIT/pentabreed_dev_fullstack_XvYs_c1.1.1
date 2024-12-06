@@ -99,6 +99,7 @@
 </div>
 clickPage => {{ clickPage }}
 totalCount => {{ totalCount }}
+
 <script>
 
 
@@ -107,6 +108,9 @@ totalCount => {{ totalCount }}
     const app = createApp({
 
         setup() {
+
+            console.log(Pagination);
+            console.log('asdasdasdasdasdasd')
             const search = ref(null);
             const items = ref([]);
             const clickPage = ref(0);
