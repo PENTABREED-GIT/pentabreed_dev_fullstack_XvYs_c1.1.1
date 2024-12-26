@@ -3,9 +3,13 @@ server:
   error:
     whitelabel:
       enabled: false
-spring:
-  devtools:
 
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  devtools:
     livereload:
       enabled: true
     restart:

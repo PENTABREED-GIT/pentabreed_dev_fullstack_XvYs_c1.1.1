@@ -26,6 +26,9 @@ security:
     auth: 인증 예외가 발생했습니다
     deny: 허용되지 않는 접근 입니다
 
+namo:
+  upload:
+    local: D:/upload/
 
 
 

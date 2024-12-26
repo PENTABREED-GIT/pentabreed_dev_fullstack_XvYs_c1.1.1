@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -64,6 +65,8 @@ public class SecurityConfig {
     }
 
 
+
+
     /**
      * 시큐리티 필터 체인
      */
@@ -76,6 +79,8 @@ public class SecurityConfig {
                                 // 정적 자원 설정
                                 .requestMatchers(
                                         "/", "/options", "/composition", "/board", "/sample", "ok",
+                                        "/ce_4.6.0.18_test/**",
+                                        "/namo/**",
                                         "/css/**",
                                         "/js/**",
                                         "/images/**",
@@ -121,6 +126,8 @@ public class SecurityConfig {
                         .rememberMeParameter("remember-me")
                         .rememberMeCookieName("remember-me")
                 )
+                .headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // default
 

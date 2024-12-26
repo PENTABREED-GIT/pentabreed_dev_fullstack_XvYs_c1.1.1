@@ -7,6 +7,7 @@ import com.penta.template.web.user.vo.UserJoinVo;
 import com.penta.template.web.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final Environment environment;
 
 
 
