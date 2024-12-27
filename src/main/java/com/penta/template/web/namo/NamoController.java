@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +27,18 @@ public class NamoController {
 
     private final CustomYmlProperty customYmlProperty;
     private final Environment environment;
+
+    @GetMapping("/namo/iframe")
+    public String namoIframe(
+            @RequestParam("width") String width,
+            @RequestParam("height") String height,
+            Model model) {
+
+        model.addAttribute("width", width);
+        model.addAttribute("height", height);
+
+        return "namo/namoIframe";
+    }
 
     @ResponseBody
     @PostMapping("/namo/imageUpload")
@@ -58,6 +71,9 @@ public class NamoController {
             multipartFile.transferTo(new File( customYmlProperty.getKey("namo.upload.local") + saveFileName));
         } else {
             log.info("s3에 업로드 해야합니다 TODO !!!");
+
+
+
         }
 
         JSONObject innerJson = new JSONObject();

@@ -11,30 +11,38 @@
     <meta charset="UTF-8">
     <title>Main</title>
     <style>
+        body {
+            min-height: 3000px;
+        }
+
+        button {
+            padding : 20px;
+        }
+
+        .btn_container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10rem;
+        }
+
+        .seal {
+            position: relative;
+        }
+
+
 
     </style>
 
 </head>
 
 <th:block layout:fragment="css">
-    <!--    <link rel="stylesheet" th:href="@{/css/main/main.css}">-->
-<!--        <link rel="stylesheet" href="/ce_4.6.0.18_test/css/codemirror.css">-->
-<!--        <link rel="stylesheet" href="/ce_4.6.0.18_test/css/foldgutter.css">-->
-<!--        <link rel="stylesheet" href="/ce_4.6.0.18_test/css/jquery.selectbox.css">-->
-<!--        <link rel="stylesheet" href="/ce_4.6.0.18_test/css/material-palenight.css">-->
-<!--        <link rel="stylesheet" href="/ce_4.6.0.18_test/css/namose_general.css">-->
-<!--        <link rel="stylesheet" href="/ce_4.6.0.18_test/css/namose_plugindrag.css">-->
-<!--        <link rel="stylesheet" href="/ce_4.6.0.18_test/css/show-hint.css">-->
-<!--        <link rel="stylesheet" href="/ce_4.6.0.18_test/css/spectrum.css">-->
-<!--        <link rel="stylesheet" href="/ce_4.6.0.18_test/css/ui.jqgrid.css">-->
-<!--        <link rel="stylesheet" href="/ce_4.6.0.18_test/css/view.css">-->
 </th:block>
 
 <th:block layout:fragment="js">
 <!--    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>-->
-        <script th:src="@{/ce_4.6.0.18_test/js/namo_scripteditor.js}"></script>
         <script th:src="@{/js/main/main.js}"></script>
 </th:block>
+
 
 <body layout:fragment="body">
 <div id="app">
@@ -42,19 +50,19 @@
 <!--    <th:block th:replace="~{/main/test :: test('A', 'B')}"></th:block>-->
 <!--    <th:block th:replace="~{/main/test :: test('A', null)}"></th:block>-->
 
-    <script>
-        var CrossEditor = new NamoSE('namo');
-        console.dir(CrossEditor)
-        CrossEditor.params.Width = "100%";
-        CrossEditor.params.Height = 700;
-        // CrossEditor.params.UploadFileExecutePath = "http://localhost:8080/imageUpload";
-        // CrossEditor.params.UploadEtcFileExecutePath = "http://localhost:8080/fileUpload";
-        CrossEditor.params.UploadFileExecutePath = "/namo/imageUpload";
-        CrossEditor.params.UploadEtcFileExecutePath = "/namo/imageUpload";
-        CrossEditor.EditorStart();
+    <iframe id="myIframe" src="/namo/iframe?width=100&height=600"
+            width="100%"
+            height="600px"
+            scrolling="no"
+            frameborder="0"
+            marginwidth="0"
+            marginheight="0">
+    </iframe>
 
-    </script>
+
+    <div class="btn_container">
+        <button onclick="fnBoardSave()">파라미터만들기</button>
+    </div>
 </div>
-
 </body>
 </html>

@@ -65,7 +65,7 @@
 <CharSet>auto</CharSet>
 <DocBaseURL/>
 <DocTitle/>
-<AllowContentScript>true</AllowContentScript>
+<AllowContentScript>false</AllowContentScript>
 <AllowContentIframe>true</AllowContentIframe>
 <MSOfficeTranON/>
 <DefaultDocType/>
@@ -85,6 +85,7 @@
 <ShowRuler>false</ShowRuler>
 </UI>
 <ToolBarTheme>
+<!--새로운 UI 사용하려면 여기-->
 <NewToolbar>false</NewToolbar>
 <ThemeIconColor>#666666</ThemeIconColor>
 <ThemeBgColor>#FFFFFF</ThemeBgColor>

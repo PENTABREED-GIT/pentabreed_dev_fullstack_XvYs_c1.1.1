@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!--<!DOCTYPE>-->
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<!--xmlns:sec="http://www.thymeleaf.org/extras/spring-security"-->
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+    <style>
+        html,body {
+            box-sizing: border-box;
+        }
+        body {
+            /*overflow-x: hidden;*/
+            /*overflow-y: scroll;*/
+        }
+    </style>
+    <script th:src="@{/ce_4.6.0.18_test/js/namo_scripteditor.js}"></script>
+</head>
+
+<body>
+    <input type="hidden" th:value="${width}" th:id="${'width'}">
+    <input type="hidden" th:value="${height}" th:id="${'height'}">
+<script>
+    console.log('나모 iframe ...');
+    var CrossEditor = new NamoSE('namo');
+    console.dir(CrossEditor);
+
+    // 새로운 UI
+    CrossEditor.params.NewToolbar = true;
+    // 언어
+    CrossEditor.params.UserLang = "kor";
+
+    // CrossEditor.params.Width = "100%";
+    CrossEditor.params.Width = [[${width}]] + '%';
+
+    // body 태그에 min-height 가 필요함, 에디터 하자있음.2222
+    // 기본 단위 : px
+    CrossEditor.params.Height = parseInt([[${height}]]);
+    // CrossEditor.params.Height = [[${height}]];
+
+    CrossEditor.params.UploadFileExecutePath = "/namo/imageUpload";
+    CrossEditor.params.UploadEtcFileExecutePath = "/namo/imageUpload";
+
+    CrossEditor.params.DocTitle = document.title;
+
+    // 에디터내에 js 차단, 캐논같은 상황 방지
+    CrossEditor.params.AllowContentScript = false;
+
+    // CrossEditor.params.ImageSrcBase64  = true
+    // CrossEditor.params.AllowContentScript   = false
+    CrossEditor.EditorStart();
+</script>
+</body>
+</html>
+
